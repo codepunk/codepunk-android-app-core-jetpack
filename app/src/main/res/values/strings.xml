@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Jetpack</string>
+
+    <string name="label_main">Main fragment</string>
+    <string name="label_secondary">Secondary fragment</string>
+
+    <string name="action_go">Go</string>
+</resources>
