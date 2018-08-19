@@ -32,11 +32,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation rootProject.deps.navigation.fragment_ktx
-    implementation rootProject.deps.navigation.ui_ktx
     implementation rootProject.deps.androidx.app_compat
     implementation rootProject.deps.androidx.constraint_layout
     implementation rootProject.deps.kotlin.stdlib
+    implementation rootProject.deps.navigation.fragment_ktx
+    implementation rootProject.deps.navigation.ui_ktx
     testImplementation rootProject.deps.junit
     androidTestImplementation rootProject.deps.navigation.testing_ktx
     androidTestImplementation rootProject.deps.atsl.runner
