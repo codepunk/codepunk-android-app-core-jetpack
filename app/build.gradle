@@ -68,13 +68,19 @@ dependencies {
     implementation rootProject.deps.dagger.android
     implementation rootProject.deps.dagger.android_support
     implementation rootProject.deps.kotlin.stdlib
+    implementation rootProject.deps.lifecycle.runtime
+    implementation rootProject.deps.lifecycle.extensions
+    implementation rootProject.deps.lifecycle.java8
     implementation rootProject.deps.navigation.fragment_ktx
     implementation rootProject.deps.navigation.ui_ktx
     implementation rootProject.deps.retrofit.runtime
     implementation rootProject.deps.retrofit.gson
+    implementation rootProject.deps.room.runtime
 
     kapt rootProject.deps.dagger.android_support_compiler
     kapt rootProject.deps.dagger.compiler
+    kapt rootProject.deps.lifecycle.compiler
+    kapt rootProject.deps.room.compiler
 
     testImplementation rootProject.deps.junit
 
