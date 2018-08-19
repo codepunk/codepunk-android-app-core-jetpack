@@ -39,6 +39,7 @@ versions.app_compat = "1.0.0-rc01"
 versions.atsl_runner = "1.1.0-alpha4"
 versions.atsl_rules = "1.1.0-alpha4"
 versions.constraint_layout = "1.1.2"
+versions.dagger = "2.15"
 versions.databinding = "3.2.0-alpha10"
 versions.espresso = "3.1.0-alpha4"
 versions.junit = "4.12"
@@ -56,6 +57,14 @@ def atsl = [:]
 atsl.runner = "com.android.support.test:runner:$versions.atsl_runner"
 //atsl.rules = "com.android.support.test:rules:$versions.atsl_runner"
 deps.atsl = atsl
+
+def dagger = [:]
+dagger.runtime = "com.google.dagger:dagger:$versions.dagger"
+dagger.android = "com.google.dagger:dagger-android:$versions.dagger"
+dagger.android_support = "com.google.dagger:dagger-android-support:$versions.dagger"
+dagger.compiler = "com.google.dagger:dagger-compiler:$versions.dagger"
+dagger.android_support_compiler = "com.google.dagger:dagger-android-processor:$versions.dagger"
+deps.dagger = dagger
 
 def espresso = [:]
 espresso.core = "com.android.support.test.espresso:espresso-core:$versions.espresso"

@@ -1,4 +1,4 @@
-package com.codepunk.jetpack.model
+package com.codepunk.jetpack.vo
 
 data class User(
 

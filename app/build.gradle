@@ -64,10 +64,18 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation rootProject.deps.androidx.app_compat
     implementation rootProject.deps.androidx.constraint_layout
+    implementation rootProject.deps.dagger.runtime
+    implementation rootProject.deps.dagger.android
+    implementation rootProject.deps.dagger.android_support
     implementation rootProject.deps.kotlin.stdlib
     implementation rootProject.deps.navigation.fragment_ktx
     implementation rootProject.deps.navigation.ui_ktx
+
+    kapt rootProject.deps.dagger.android_support_compiler
+    kapt rootProject.deps.dagger.compiler
+
     testImplementation rootProject.deps.junit
+
     androidTestImplementation rootProject.deps.navigation.testing_ktx
     androidTestImplementation rootProject.deps.atsl.runner
     androidTestImplementation rootProject.deps.espresso.core
