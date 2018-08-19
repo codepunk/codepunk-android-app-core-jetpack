@@ -5,11 +5,12 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion rootProject.build_versions.target_sdk
+    buildToolsVersion rootProject.build_versions.build_tools
     defaultConfig {
         applicationId "com.codepunk.codepunkjetpack"
-        minSdkVersion 15
-        targetSdkVersion 28
+        minSdkVersion rootProject.build_versions.min_sdk
+        targetSdkVersion rootProject.build_versions.target_sdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -20,25 +21,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    dataBinding {
-        enabled = true
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.versions.kotlin"
-    implementation "android.arch.navigation:navigation-fragment-ktx:$rootProject.versions.navigation"
-    implementation "android.arch.navigation:navigation-ui-ktx:$rootProject.versions.navigation"
-    implementation "androidx.appcompat:appcompat:$rootProject.versions.appcompat"
-    implementation "androidx.constraintlayout:constraintlayout:$rootProject.versions.constraint_layout"
-    testImplementation "junit:junit:$rootProject.versions.junit"
-    androidTestImplementation "android.arch.navigation:navigation-testing-ktx:$rootProject.versions.navigation"
-    androidTestImplementation "androidx.test:runner:$rootProject.versions.test_runner"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.versions.test_espresso"
+    implementation rootProject.deps.navigation.fragment_ktx
+    implementation rootProject.deps.navigation.ui_ktx
+    implementation rootProject.deps.androidx.app_compat
+    implementation rootProject.deps.androidx.constraint_layout
+    implementation rootProject.deps.kotlin.stdlib
+    testImplementation rootProject.deps.junit
+    androidTestImplementation rootProject.deps.navigation.testing_ktx
+    androidTestImplementation rootProject.deps.atsl.runner
+    androidTestImplementation rootProject.deps.espresso.core
 }
