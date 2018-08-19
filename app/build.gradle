@@ -70,6 +70,8 @@ dependencies {
     implementation rootProject.deps.kotlin.stdlib
     implementation rootProject.deps.navigation.fragment_ktx
     implementation rootProject.deps.navigation.ui_ktx
+    implementation rootProject.deps.retrofit.runtime
+    implementation rootProject.deps.retrofit.gson
 
     kapt rootProject.deps.dagger.android_support_compiler
     kapt rootProject.deps.dagger.compiler

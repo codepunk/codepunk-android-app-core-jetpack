@@ -22,7 +22,12 @@ class MainFragment : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_main,
+            container,
+            false
+        )
         binding.goToSecondFragmentButton.setOnClickListener(this)
         return binding.root
     }
