@@ -4,10 +4,17 @@ import android.app.Application
 import com.codepunk.jetpack.JetpackApp
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class])
+@Component(
+    modules = [
+        AndroidInjectionModule::class,
+        AppModule::class,
+        MainActivityModule::class
+    ]
+)
 interface AppComponent {
 
     @Component.Builder

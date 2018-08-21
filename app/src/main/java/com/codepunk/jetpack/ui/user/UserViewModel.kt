@@ -42,27 +42,27 @@ import javax.inject.Inject
 
 class UserViewModel @Inject constructor(userRepository: UserRepository) : ViewModel() {
 
-    private val _login = MutableLiveData<String>()
-    val login: MutableLiveData<String>
-        get() = _login
+    private val _userId = MutableLiveData<Int>()
+    val userId: MutableLiveData<Int>
+        get() = _userId
 
-    val user: LiveData<Resource<User>> = Transformations.switchMap(_login) { login ->
-        if (login == null) {
+    val user: LiveData<Resource<User>> = Transformations.switchMap(_userId) { userId ->
+        if (userId == null) {
             AbsentLiveData.create()
         } else {
-            userRepository.getUser()
+            userRepository.getUser(userId)
         }
     }
 
-    fun setLogin(login: String?) {
-        if (_login.value != login) {
-            _login.value = login
+    fun setUserId(userId: Int?) {
+        if (_userId.value != userId) {
+            _userId.value = userId
         }
     }
 
     fun retry() {
-        _login.value?.let {
-            _login.value = it
+        _userId.value?.let {
+            _userId.value = it
         }
     }
 }

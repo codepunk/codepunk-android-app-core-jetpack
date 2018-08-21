@@ -5,8 +5,11 @@ import androidx.room.Room
 import com.codepunk.jetpack.api.UserWebservice
 import com.codepunk.jetpack.db.JetpackDb
 import com.codepunk.jetpack.db.UserDao
+import com.codepunk.jetpack.util.LiveDataCallAdapterFactory
+import com.codepunk.jetpack.util.generateSSLSocketFactory
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -17,9 +20,14 @@ class AppModule {
     @Provides
     fun providesUserWebservice(): UserWebservice {
         return Retrofit.Builder()
-            .baseUrl("https://codepunk.test/")
+            .client(OkHttpClient.Builder()
+                .apply {
+                    generateSSLSocketFactory()
+                }
+                .build())
+            .baseUrl("https://codepunk.test")
             .addConverterFactory(GsonConverterFactory.create())
-//            .addCallAdapterFactory(LiveDataCallAdapterFactory())
+            .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .build()
             .create(UserWebservice::class.java)
 
