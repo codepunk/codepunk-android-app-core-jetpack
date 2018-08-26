@@ -38,6 +38,7 @@ apply plugin: 'org.jetbrains.dokka-android'
 android {
     compileSdkVersion rootProject.build_versions.target_sdk
     buildToolsVersion rootProject.build_versions.build_tools
+
     defaultConfig {
         applicationId "com.codepunk.codepunkjetpack"
         minSdkVersion rootProject.build_versions.min_sdk
@@ -46,25 +47,28 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding {
-        enabled = true
-    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-}
 
-dokka {
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/javadoc"
-    includeNonPublic = true
+    dataBinding {
+        enabled = true
+    }
+
+    dokka {
+        outputFormat = 'html'
+        outputDirectory = "$buildDir/javadoc"
+        includeNonPublic = true
+    }
 }
 
 dependencies {
