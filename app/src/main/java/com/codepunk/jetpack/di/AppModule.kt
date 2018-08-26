@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.codepunk.jetpack.api.UserWebservice
 import com.codepunk.jetpack.db.JetpackDb
 import com.codepunk.jetpack.db.UserDao
+import com.codepunk.jetpack.util.AuthorizationInterceptor
 import com.codepunk.jetpack.util.LiveDataCallAdapterFactory
 import com.codepunk.jetpack.util.generateSSLSocketFactory
 import dagger.Module
@@ -24,14 +25,13 @@ class AppModule {
                 .apply {
                     generateSSLSocketFactory()
                 }
+                .addInterceptor(AuthorizationInterceptor)
                 .build())
             .baseUrl("https://codepunk.test")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .build()
             .create(UserWebservice::class.java)
-
-        // TODO I need my crazy local client nonsense here
     }
 
     @Singleton

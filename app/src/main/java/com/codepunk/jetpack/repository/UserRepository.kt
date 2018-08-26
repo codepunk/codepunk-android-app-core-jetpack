@@ -33,11 +33,7 @@ class UserRepository @Inject constructor(
 
             override fun loadFromDb() = userDao.getUser(id)
 
-            override fun createCall(): LiveData<ApiResponse<User>> {
-                // TODO TEMP
-                Log.d(this@UserRepository::class.java.simpleName, "createCall: Here!")
-                return userWebservice.getUser()
-            }
+            override fun createCall(): LiveData<ApiResponse<User>> = userWebservice.getUser()
         }.asLiveData()
     }
 
