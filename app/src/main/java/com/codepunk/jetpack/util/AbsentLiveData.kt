@@ -39,13 +39,13 @@ import androidx.lifecycle.LiveData
  */
 class AbsentLiveData<T : Any?> private constructor() : LiveData<T>() {
 
-    // region Properties
+    // region Constructors
 
     init {
         postValue(null)
     }
 
-    // endregion Properties
+    // endregion Constructors
 
     // region Companion object
 

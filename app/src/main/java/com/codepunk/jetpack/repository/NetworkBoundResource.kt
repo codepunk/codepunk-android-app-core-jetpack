@@ -48,8 +48,7 @@ import com.codepunk.jetpack.vo.Resource
  * Works with a [RequestType] and a [ResultType] in order to specify the data type(s) that expected
  * when dealing with network calls as well as interactions with the SQLite database.
  *
- * You can read more about it in the [Architecture
- * Guide](https://developer.android.com/arch).
+ * You can read more about it in the [Architecture Guide](https://developer.android.com/arch).
  */
 abstract class NetworkBoundResource<ResultType, RequestType>
 @MainThread constructor(private val appExecutors: AppExecutors) {
@@ -57,6 +56,10 @@ abstract class NetworkBoundResource<ResultType, RequestType>
     // region Properties
 
     private val result = MediatorLiveData<Resource<ResultType>>()
+
+    // endregion Properties
+
+    // region Constructors
 
     init {
         result.value = Resource.loading(null)
@@ -74,7 +77,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>
         }
     }
 
-    // endregion Properties
+    // endregion Constructors
 
     // region Methods
 
