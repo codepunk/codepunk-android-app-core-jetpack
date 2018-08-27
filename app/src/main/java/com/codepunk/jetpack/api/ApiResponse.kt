@@ -20,10 +20,14 @@
  *
  *      https://github.com/googlesamples
  *
- * In the following location:
+ *      Repository:
+ *      android-architecture-components
  *
- *      android-architecture-components/GithubBrowserSample/app/src/main/java/com/android/example/github/api
+ *      File:
+ *      GithubBrowserSample/app/src/main/java/com/android/example/github/api/ApiResponse.kt
  *
+ * Modifications:
+ * August 2018: Code organization and comments
  */
 
 package com.codepunk.jetpack.api
@@ -34,15 +38,26 @@ import java.util.regex.Pattern
 
 /**
  * Common class used by API responses.
- * @param <T> the type of the response object
-</T> */
+ */
 @Suppress("unused") // T is used in extending classes
 sealed class ApiResponse<T> {
+
+    // region Companion object
+
     companion object {
+
+        // region Methods
+
+        /**
+         * Creates an [ApiErrorResponse] instance.
+         */
         fun <T> create(error: Throwable): ApiErrorResponse<T> {
             return ApiErrorResponse(error.message ?: "unknown error")
         }
 
+        /**
+         * Creates an [ApiResponse] instance appropriate to the supplied response.
+         */
         fun <T> create(response: Response<T>): ApiResponse<T> {
             return if (response.isSuccessful) {
                 val body = response.body()
@@ -64,23 +79,47 @@ sealed class ApiResponse<T> {
                 ApiErrorResponse(errorMsg ?: "unknown error")
             }
         }
+
+        // endregion Methods
     }
+
+    // endregion Companion object
 }
 
 /**
- * separate class for HTTP 204 resposes so that we can make ApiSuccessResponse's body non-null.
+ * A separate class for HTTP 204 resposes so that we can make ApiSuccessResponse's body non-null.
  */
 class ApiEmptyResponse<T> : ApiResponse<T>()
 
+/**
+ * An [ApiResponse] class representing a successful API call.
+ */
 data class ApiSuccessResponse<T>(
+    /**
+     * An instance of class [T] representing the body of the successful API call.
+     */
     val body: T,
+
+    /**
+     * A [Map] of links contained in the headers of this successful API call.
+     */
     val links: Map<String, String>
 ) : ApiResponse<T>() {
+
+    // region Constructors
+
     constructor(body: T, linkHeader: String?) : this(
         body = body,
         links = linkHeader?.extractLinks() ?: emptyMap()
     )
 
+    // endregion Constructors
+
+    // region Properties
+
+    /**
+     * Processes paging in successful API responses.
+     */
     val nextPage: Int? by lazy(LazyThreadSafetyMode.NONE) {
         links[NEXT_LINK]?.let { next ->
             val matcher = PAGE_PATTERN.matcher(next)
@@ -100,11 +139,37 @@ data class ApiSuccessResponse<T>(
         }
     }
 
+    // endregion Properties
+
+    // region Companion object
+
     companion object {
+
+        // region Constants
+
+        /**
+         * A [Pattern] that matches a link.
+         */
         private val LINK_PATTERN = Pattern.compile("<([^>]*)>[\\s]*;[\\s]*rel=\"([a-zA-Z0-9]+)\"")
+
+        /**
+         * A [Pattern] that matches a page field in a URL query.
+         */
         private val PAGE_PATTERN = Pattern.compile("\\bpage=(\\d+)")
+
+        /**
+         * A constant used to get the "next" link out of the [links] map if it exists. Used for
+         * paging purposes.
+         */
         private const val NEXT_LINK = "next"
 
+        // endregion Constants
+
+        // region Methods
+
+        /**
+         * Extension function that extracts links from a string and stores them in a [Map].
+         */
         private fun String.extractLinks(): Map<String, String> {
             val links = mutableMapOf<String, String>()
             val matcher = LINK_PATTERN.matcher(this)
@@ -118,7 +183,15 @@ data class ApiSuccessResponse<T>(
             return links
         }
 
+        // endregion Methods
+
     }
+
+    // endregion Companion object
 }
 
+/**
+ * [ApiResponse] class that represents an API error, storing the [errorMessage] associated with
+ * the error.
+ */
 data class ApiErrorResponse<T>(val errorMessage: String) : ApiResponse<T>()

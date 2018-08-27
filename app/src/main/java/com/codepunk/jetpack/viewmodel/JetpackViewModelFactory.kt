@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2017 The Android Open Source Project
- * Modifications (C) 2018 Codepunk, LLC
+ * Modifications Copyright (C) 2018 Codepunk, LLC
  *               Author(s): Scott Slater
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,12 +20,14 @@
  *
  *      https://github.com/googlesamples
  *
- * In the following location:
+ *      Repository:
+ *      android-architecture-components
  *
- *      android-architecture-components/GithubBrowserSample/app/src/main/java/com/android/example/github/viewmodel/GithubViewModelFactory
+ *      File:
+ *      GithubBrowserSample/app/src/main/java/com/android/example/github/viewmodel/GithubViewModelFactory.kt
  *
  * Modifications:
- * August 2018: Some reformatting for better readability
+ * August 2018: Jetpack-specific naming conventions; code organization and comments
  */
 
 package com.codepunk.jetpack.viewmodel
@@ -34,13 +36,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
 import javax.inject.Provider
+import javax.inject.Singleton
 
+/**
+ * A custom [ViewModelProvider.Factory] designed to work with dependency injection.
+ */
+@Singleton
 class JetpackViewModelFactory @Inject constructor(
     private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
 
     // region Implemented methods
 
+    /**
+     * Implementation of [ViewModelProvider.Factory.create]. Creates an instance of the
+     * [ViewModel] according to the supplied [modelClass], and throws an [IllegalArgumentException]
+     * if [modelClass] is not a key in [creators].
+     */
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val creator = creators[modelClass]
             ?: creators.entries.firstOrNull { entry ->

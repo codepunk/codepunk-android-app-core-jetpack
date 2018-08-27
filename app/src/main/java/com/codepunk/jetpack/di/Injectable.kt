@@ -12,6 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ *
+ * The original work can be found at The Android Open Source Project at
+ *
+ *      https://github.com/googlesamples
+ *
+ *      Repository:
+ *      android-architecture-components
+ *
+ *      File:
+ *      GithubBrowserSample/app/src/main/java/com/android/example/github/di/Injectable.kt
  */
 
 package com.codepunk.jetpack.di

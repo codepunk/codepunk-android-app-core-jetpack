@@ -1,5 +1,7 @@
 /*
  * Copyright (C) 2017 The Android Open Source Project
+ * Modifications Copyright (C) 2018 Codepunk, LLC
+ *               Author(s): Scott Slater
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,6 +14,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ *
+ * The original work can be found at The Android Open Source Project at
+ *
+ *      https://github.com/googlesamples
+ *
+ *      Repository:
+ *      android-architecture-components
+ *
+ *      File:
+ *      GithubBrowserSample/app/src/main/java/com/android/example/github/vo/Status.kt
+ *
+ * Modifications:
+ * August 2018: Code organization and comments
  */
 
 package com.codepunk.jetpack.vo
@@ -19,12 +35,23 @@ package com.codepunk.jetpack.vo
 /**
  * Status of a resource that is provided to the UI.
  *
- *
  * These are usually created by the Repository classes where they return
  * `LiveData<Resource<T>>` to pass back the latest data to the UI with its fetch status.
  */
 enum class Status {
+
+    /**
+     * Indicates a resource that loaded successfully.
+     */
     SUCCESS,
+
+    /**
+     * Indicates a resource that encountered an error while loading.
+     */
     ERROR,
+
+    /**
+     * Indicates a resource that is currently loading.
+     */
     LOADING
 }

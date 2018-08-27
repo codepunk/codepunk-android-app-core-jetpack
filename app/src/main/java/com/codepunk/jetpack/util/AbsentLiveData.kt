@@ -1,5 +1,7 @@
 /*
  * Copyright (C) 2017 The Android Open Source Project
+ * Modifications Copyright (C) 2018 Codepunk, LLC
+ *               Author(s): Scott Slater
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,24 +20,49 @@
  *
  *      https://github.com/googlesamples
  *
- * In the following location:
+ *      Repository:
+ *      android-architecture-components
  *
- *      android-architecture-components/GithubBrowserSample/app/src/main/java/com/android/example/github/util/AbsentLiveData.kt
+ *      File:
+ *      GithubBrowserSample/app/src/main/java/com/android/example/github/util/AbsentLiveData.kt
  *
+ * Modifications:
+ * August 2018: Code organization and comments
  */
 
 package com.codepunk.jetpack.util
 
 import androidx.lifecycle.LiveData
 
+/**
+ * A special [LiveData] that contains a null value.
+ */
 class AbsentLiveData<T : Any?> private constructor() : LiveData<T>() {
+
+    // region Properties
+
     init {
         postValue(null)
     }
 
+    // endregion Properties
+
+    // region Companion object
+
     companion object {
+
+        // region Methods
+
+        /**
+         * Creates a new AbsentLiveData instance.
+         */
         fun <T> create(): LiveData<T> {
             return AbsentLiveData()
         }
+
+        // endregion Methods
+
     }
+
+    // endregion Companion object
 }

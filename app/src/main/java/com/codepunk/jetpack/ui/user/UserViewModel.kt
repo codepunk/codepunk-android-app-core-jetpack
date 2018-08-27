@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2017 The Android Open Source Project
- * Modifications (C) 2018 Codepunk, LLC
+ * Modifications Copyright (C) 2018 Codepunk, LLC
  *               Author(s): Scott Slater
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,12 +20,14 @@
  *
  *      https://github.com/googlesamples
  *
- * In the following location:
+ *      Repository:
+ *      android-architecture-components
  *
- *      android-architecture-components/GithubBrowserSample/app/src/main/java/com/android/example/github/ui/user/UserViewModel
+ *      File:
+ *      GithubBrowserSample/app/src/main/java/com/android/example/github/ui/user/UserViewModel.kt
  *
  * Modifications:
- * August 2018: Some reformatting for better readability
+ * August 2018: Code organization and comments
  */
 
 package com.codepunk.jetpack.ui.user
@@ -40,12 +42,24 @@ import com.codepunk.jetpack.vo.Resource
 import com.codepunk.jetpack.vo.User
 import javax.inject.Inject
 
+/**
+ * A [ViewModel] for maintaining [User] objects.
+ */
 class UserViewModel @Inject constructor(userRepository: UserRepository) : ViewModel() {
 
+    // region Properties
+
+    /**
+     * The id of the user.
+     */
     private val _userId = MutableLiveData<Int>()
     val userId: MutableLiveData<Int>
         get() = _userId
 
+    /**
+     * The user instance. Will be an instance of [AbsentLiveData] if no userId is supplied, or the
+     * result of [UserRepository.getUser] otherwise.
+     */
     val user: LiveData<Resource<User>> = Transformations.switchMap(_userId) { userId ->
         if (userId == null) {
             AbsentLiveData.create()
@@ -54,15 +68,29 @@ class UserViewModel @Inject constructor(userRepository: UserRepository) : ViewMo
         }
     }
 
+    // endregion Properties
+
+    // region Methods
+
+    /**
+     * Sets the user id and triggers the switchMap backing the [user] property.
+     */
     fun setUserId(userId: Int?) {
         if (_userId.value != userId) {
             _userId.value = userId
         }
     }
 
+    /**
+     * Re-sets user id to itself, which will also reset the switchMap backing the [user] property
+     * in the case that an error was encountered during the previous attempt (i.e. bad network
+     * connection, user was unauthorized, etc.)
+     */
     fun retry() {
         _userId.value?.let {
             _userId.value = it
         }
     }
+
+    // endregion Methods
 }

@@ -1,5 +1,7 @@
 /*
  * Copyright (C) 2017 The Android Open Source Project
+ * Modifications Copyright (C) 2018 Codepunk, LLC
+ *               Author(s): Scott Slater
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,6 +14,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ *
+ * The original work can be found at The Android Open Source Project at
+ *
+ *      https://github.com/googlesamples
+ *
+ *      Repository:
+ *      android-architecture-components
+ *
+ *      File:
+ *      GithubBrowserSample/app/src/main/java/com/android/example/github/repository/NetworkBoundResource.kt
+ *
+ * Modifications:
+ * August 2018: Jetpack-specific dependency creation; code organization and comments
  */
 
 package com.codepunk.jetpack.repository
@@ -28,16 +44,17 @@ import com.codepunk.jetpack.api.ApiSuccessResponse
 import com.codepunk.jetpack.vo.Resource
 
 /**
- * A generic class that can provide a resource backed by both the sqlite database and the network.
- *
+ * A generic class that can provide a resource backed by both the SQLite database and the network.
+ * Works with a [RequestType] and a [ResultType] in order to specify the data type(s) that expected
+ * when dealing with network calls as well as interactions with the SQLite database.
  *
  * You can read more about it in the [Architecture
  * Guide](https://developer.android.com/arch).
- * @param <ResultType>
- * @param <RequestType>
-</RequestType></ResultType> */
+ */
 abstract class NetworkBoundResource<ResultType, RequestType>
 @MainThread constructor(private val appExecutors: AppExecutors) {
+
+    // region Properties
 
     private val result = MediatorLiveData<Resource<ResultType>>()
 
@@ -56,6 +73,10 @@ abstract class NetworkBoundResource<ResultType, RequestType>
             }
         }
     }
+
+    // endregion Properties
+
+    // region Methods
 
     @MainThread
     private fun setValue(newValue: Resource<ResultType>) {
@@ -97,6 +118,9 @@ abstract class NetworkBoundResource<ResultType, RequestType>
                 }
                 is ApiErrorResponse -> {
                     onFetchFailed()
+
+                    // TODO Maybe extract "message" from errorMessage JSON?
+
                     result.addSource(dbSource) { newData ->
                         setValue(Resource.error(response.errorMessage, newData))
                     }
@@ -123,4 +147,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>
 
     @MainThread
     protected abstract fun createCall(): LiveData<ApiResponse<RequestType>>
+
+    // endregion Methods
+
 }
